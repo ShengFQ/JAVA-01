@@ -1,125 +1,62 @@
-####学习笔记
+####学习笔记 学号:G20210579020387 2021-01-10
+class1
+
+学习程度:了解<熟悉<熟练<理解
+
+本次课程的要点
+    
+    字节码阅读(了解)
+    java类加载(熟练)
+    jvm内存模型(熟练)
+    jvm的启动运行参数(了解)
+    常用的性能指标(了解)
+    
+课外延伸
+
+    jvm故障问题排查思路和工具(理解)
+    jvm常见面试题(了解)       
+    JSR133(了解)
+理解
+
+    java程序的启动都是从类加载开始,知道java类加载器的加载原理和加载过程,帮助我打开JVM运行时这个未知的大门.常见的加载异常,
+    ClassNotFoundExcetion.
+    
+    工作中,常遇到的线上问题,如内存溢出和内存泄漏,以前都是未知的,学习了jvm知识后,能从底层上分析内存溢出的原因和内存泄漏的分类.对jvm这个
+    黑盒子打开.
+    
+    jvm内存结构(并发编程中的锁,同步)
+        stack (不可共享)局部变量,成员变量的指针,方法的形参,入参,
+            线程栈 Xss1m 表示线程栈初始化1m大小
+        heap(内存分配和内存回收的主要区域,我们可操控的,可共享) 对象,static变量,数组. 多线程下可以共享访问,基础类型的成员变量不共享.
+            young-gen
+                eden-space
+                survive-space 0
+                survive-space 1
+            old-gen    
+        Non-heap
+            Metaspace 方法区 常量池
+            CCS compressed class space 
+            code cache
+            
+     JMM内存模型
+        虽然各个线程自己使用的局部变量都在自己的栈上，但是可以共享堆
+        上的对象，特别地各个不同线程访问同一个对象实例的基础类型的成员变量，会给每
+        个线程一个变量的副本   
+
+
+故障排查
+
+    如果CPU使用率飙升,怎么排查
+       收集不同的性能指标,CPU,内存,磁盘,网络
+       分析应用日志
+       分析GC日志
+       查看jvm进程id ps -ef 
+       导出线程栈转储并分析 jstack pid
+       导出堆转储并分析 jmap dump 
+常用指令集
 <pre>
-jmap -heap 68430
-Server compiler detected.
-JVM version is 25.77-b03
-
-using thread-local object allocation.
-Parallel GC with 4 thread(s)
-
-Heap Configuration:
-   MinHeapFreeRatio         = 0
-   MaxHeapFreeRatio         = 100
-   MaxHeapSize              = 2147483648 (2048.0MB)
-   NewSize                  = 44564480 (42.5MB)
-   MaxNewSize               = 715653120 (682.5MB)
-   OldSize                  = 89653248 (85.5MB)
-   NewRatio                 = 2
-   SurvivorRatio            = 8
-   MetaspaceSize            = 21807104 (20.796875MB)
-   CompressedClassSpaceSize = 1073741824 (1024.0MB)
-   MaxMetaspaceSize         = 17592186044415 MB
-   G1HeapRegionSize         = 0 (0.0MB)
-
-Heap Usage:
-PS Young Generation
-Eden Space:
-   capacity = 681050112 (649.5MB)
-   used     = 564764576 (538.6014709472656MB)
-   free     = 116285536 (110.89852905273438MB)
-   82.92555364853975% used
-From Space:
-   capacity = 11010048 (10.5MB)
-   used     = 10835488 (10.333526611328125MB)
-   free     = 174560 (0.166473388671875MB)
-   98.41453915550595% used
-To Space:
-   capacity = 17825792 (17.0MB)
-   used     = 0 (0.0MB)
-   free     = 17825792 (17.0MB)
-   0.0% used
-PS Old Generation
-   capacity = 85458944 (81.5MB)
-   used     = 26213432 (24.99907684326172MB)
-   free     = 59245512 (56.50092315673828MB)
-   30.67371391811254% used
-
-24163 interned Strings occupying 3072112 bytes.
-
-===================================
-
-
-jinfo 68430
-Attaching to process ID 68430, please wait...
-Debugger attached successfully.
-Server compiler detected.
-JVM version is 25.77-b03
-Java System Properties:
-
-java.runtime.name = Java(TM) SE Runtime Environment
-java.vm.version = 25.77-b03
-sun.boot.library.path = /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib
-java.protocol.handler.pkgs = org.springframework.boot.loader
-gopherProxySet = false
-java.vendor.url = http://java.oracle.com/
-java.vm.vendor = Oracle Corporation
-path.separator = :
-java.rmi.server.randomIDs = true
-file.encoding.pkg = sun.io
-java.vm.name = Java HotSpot(TM) 64-Bit Server VM
-sun.os.patch.level = unknown
-sun.java.launcher = SUN_STANDARD
-user.country = CN
-user.dir = /Users/sheng
-java.vm.specification.name = Java Virtual Machine Specification
-PID = 68430
-java.runtime.version = 1.8.0_77-b03
-java.awt.graphicsenv = sun.awt.CGraphicsEnvironment
-os.arch = x86_64
-java.endorsed.dirs = /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/endorsed
-line.separator = 
-
-java.io.tmpdir = /var/folders/q3/1hjk6bf54gg07y626mqms12m0000gn/T/
-java.vm.specification.vendor = Oracle Corporation
-os.name = Mac OS X
-sun.jnu.encoding = UTF-8
-java.library.path = /Users/sheng/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
-spring.beaninfo.ignore = true
-java.specification.name = Java Platform API Specification
-java.class.version = 52.0
-sun.management.compiler = HotSpot 64-Bit Tiered Compilers
-os.version = 10.13.6
-user.home = /Users/sheng
-user.timezone = Asia/Shanghai
-catalina.useNaming = false
-java.awt.printerjob = sun.lwawt.macosx.CPrinterJob
-file.encoding = UTF-8
-@appId = eurka-server
-java.specification.version = 1.8
-catalina.home = /private/var/folders/q3/1hjk6bf54gg07y626mqms12m0000gn/T/tomcat.2066157831224450024.8761
-user.name = sheng
-java.class.path = /Users/sheng/Desktop/geer2-springcloud-service-1.0-SNAPSHOT.jar
-java.vm.specification.version = 1.8
-sun.arch.data.model = 64
-sun.java.command = /Users/sheng/Desktop/geer2-springcloud-service-1.0-SNAPSHOT.jar
-java.home = /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre
-user.language = zh
-java.specification.vendor = Oracle Corporation
-user.language.format = en
-awt.toolkit = sun.lwawt.macosx.LWCToolkit
-java.vm.info = mixed mode
-java.version = 1.8.0_77
-java.ext.dirs = /Users/sheng/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
-sun.boot.class.path = /Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/jre/classes
-java.awt.headless = true
-java.vendor = Oracle Corporation
-catalina.base = /private/var/folders/q3/1hjk6bf54gg07y626mqms12m0000gn/T/tomcat.2066157831224450024.8761
-file.separator = /
-java.vendor.url.bug = http://bugreport.sun.com/bugreport/
-sun.io.unicode.encoding = UnicodeBig
-sun.cpu.endian = little
-sun.cpu.isalist = 
-
-VM Flags:
-Non-default VM flags: -XX:CICompilerCount=3 -XX:InitialHeapSize=134217728 -XX:MaxHeapSize=2147483648 -XX:MaxNewSize=715653120 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=44564480 -XX:OldSize=89653248 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps -XX:+UseParallelGC 
+    查看进程号 ps -ef |grep java
+    查看剩余内存 free -m ,free -h ,top
+    获取堆转储  jmap -dump:format=b,file= pid.hprof pid_java
+    
 </pre>
