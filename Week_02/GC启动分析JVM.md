@@ -1,6 +1,7 @@
 ###作业 week2-jvm03
- 学号:G20210579020387 日期:2021-01-14
-####使用 GCLogAnalysis.java 自己演练一遍串行/并行/CMS/G1的案例
+ 学号:G20210579020387 
+ 日期:2021-01-14
+ 主题:使用 GCLogAnalysis.java 自己演练一遍串行/并行/CMS/G1的案例
 
 启动脚本
 	
@@ -35,7 +36,7 @@
 	
 分析
 	
-	拿到gc.demo.log 日志后
+	拿到gc.log 日志后
 
 CommandLine flags: 
 
