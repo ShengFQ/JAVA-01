@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    <bean id="george" class="com.geekbang.shengfq.week5.spring.bean.Student">
+        <property name="age" value="11">
+        </property>
+        <property name="name" value="gerge"/>
+    </bean>
+
+    <bean id="shengfq" class="com.geekbang.shengfq.week5.spring.bean.Student">
+        <property name="name" value="kim"/>
+        <property name="age" value="19"/>
+    </bean>
+    <bean id="klass01" class="com.geekbang.shengfq.week5.spring.bean.Klass">
+        <property name="students">
+            <list>
+                <ref bean="george"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="school01" class="com.geekbang.shengfq.week5.spring.bean.School">
+        <property name="klasses">
+            <list>
+                <ref bean="klass01"></ref>
+
+            </list>
+        </property>
+    </bean>
+    <!--spring bean装载自动注入需要扫描包,如果没有指定下面的包名,则@Autowize @Resource均是NPE-->
+    <context:component-scan base-package="com.geekbang.shengfq.week5" />
+    <aop:aspectj-autoproxy  />
+</beans>
