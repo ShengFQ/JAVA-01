@@ -1,0 +1,39 @@
+{
+  "groups": [
+    {
+      "name": "custom",
+      "type": "io.geekbang.shengfq.springboot.properties.CustomProperties",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "custom.age",
+      "type": "java.lang.Integer",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "custom.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "custom.klass-name",
+      "type": "java.lang.String",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties"
+    },
+    {
+      "name": "custom.name",
+      "type": "java.lang.String",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties"
+    },
+    {
+      "name": "custom.school-name",
+      "type": "java.lang.String",
+      "sourceType": "io.geekbang.shengfq.springboot.properties.CustomProperties"
+    }
+  ],
+  "hints": []
+}
